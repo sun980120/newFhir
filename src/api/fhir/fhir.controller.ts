@@ -12,8 +12,6 @@ export class FhirController implements Controller {
         const router = Router();
         router
             .get('/resource', wrap(FhirService.resource))
-            // .post('/login', wrap(AuthService.login))
-            // .post('/signup', wrap(AuthService.signup))
         this.router.use(this.path, router);
     }
 }

@@ -1,10 +1,15 @@
-import { HumanName, Identifier, Meta, Narrative, ContactPoint, DataType, Address, PatientLink, Extension, Patient } from 'fhir/r4';
-import { NarrativeStatus } from '../enum/Status';
+import { HumanName, Identifier, Meta, Narrative, ContactPoint, DataType, Address, PatientLink, Extension } from 'fhir/r4';
+import { IdentifierUse, NarrativeStatus } from '../enum/Status';
+import { MetaBuild } from '../buildTool/MetaBuilder';
+import { NarrativeBuilder } from '../buildTool/NarrativeBuilder';
+import { Patient } from '../buildTool/Patient';
+import { IdentifierBuilder } from '../buildTool/IdentifierBuilder';
+import { CodeableConceptBuilder } from '../buildTool/CodeableConceptBuilder';
 
 export class PatientResourceBuilder {
     private meta:Meta;
     private text: Narrative;
-    // private identifierList: Array<Identifier>
+    private identifierList: Array<Identifier>;
     // private active: boolean;
     // private humanNameList: Array<HumanName>
     // private contactPointList: Array<ContactPoint>
@@ -15,21 +20,41 @@ export class PatientResourceBuilder {
     // private extensionList: Array<Extension>
 
     setMeta(metaProfile: [string]) {
-        console.log(metaProfile)
-        this.meta.profile = metaProfile;
+        // var MetaData = java.import('org.hl7.fhir.r4.model.Meta');
+        // const meta = new MetaData();
+        const meta = new MetaBuild();
+        // meta.addProfile(metaProfile);
+        meta.setProfile(metaProfile)
+        this.meta = meta;
         return this;
     }
     setText(status: NarrativeStatus, div:string){
-        console.log(status)
-        console.log(div)
-        this.text.status = status;
-        this.text.div = div;
+        const nar = new NarrativeBuilder();
+        nar.setStatus(status);
+        nar.setDiv(div);
+        this.text = nar;
+        return this;
+    }
+    addIdentifier(use:IdentifierUse, codeSystem:string, codeCode:string, system:string, value:string){
+        const identifier = new IdentifierBuilder();
+        identifier.setUse(use);
+        const codeableConcept = new CodeableConceptBuilder();
+        codeableConcept.addCoding().setSystem(codeSystem).setCode(codeCode)
+        identifier.setType(codeableConcept);
+        identifier.setSystem(system);
+        identifier.setValue(value);
+        console.log(identifier)
+        console.log(identifier.type)
+        console.log(8)
+        this.identifierList.push(identifier)
+        console.log(9)
         return this;
     }
     build() {
-        let patient: Patient;
-        patient.meta = this.meta;
-        patient.text = this.text;
+        // var Patient = java.import('org.hl7.fhir.r4.model.Patient');
+        const patient = new Patient();
+        patient.setMeta(this.meta);
+        patient.setText(this.text);
         return patient;
     }
 }
@@ -60,7 +85,7 @@ export class PatientResourceBuilder {
 // var StringType = java.import('org.hl7.fhir.r4.model.StringType');
 
 // export class PatientResourceBuilder {
-    
+
 //     private meta:Meta;
 //     private text: Narrative;
 //     private identifierList: Array<Identifier>

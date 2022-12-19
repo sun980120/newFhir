@@ -10,5 +10,12 @@ export enum IdentifierUse {
     TEMP = "temp",
     SECONDARY = "secondary",
     OLD = "old",
-    // NULL = undefined,
+}
+export enum NodeType {
+    Element,
+    Text,
+    Comment,
+    DocType,
+    Document,
+    Instruction
 }
