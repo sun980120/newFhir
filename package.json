@@ -1,0 +1,58 @@
+{
+    "name": "newfhir",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "/src/bin/www.ts",
+    "description": "Awesome project developed with ORM-PROJECT.",
+    "type": "commonjs",
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/cors": "^2.8.12",
+        "@types/dotenv": "^8.2.0",
+        "@types/express-session": "^1.17.5",
+        "@types/fhir": "^0.0.35",
+        "@types/node": "^16.11.10",
+        "eslint": "8.22.0",
+        "ts-node": "10.7.0",
+        "typescript": "4.5.2"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.20.0",
+        "config": "^3.3.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.2",
+        "express": "^4.18.1",
+        "express-session": "^1.17.3",
+        "fhir": "^4.11.1",
+        "mysql": "^2.18.1",
+        "nodemon": "^2.0.19",
+        "typeorm": "0.3.9"
+    },
+    "scripts": {
+        "start": "node dist/bin/www.js",
+        "start:nodemon": "nodemon dist/bin/www.js",
+        "typeorm": "typeorm-ts-node-commonjs",
+        "start:dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/bin/www.ts",
+        "build": "tsc -p ."
+    },
+    "java": {
+        "dependencies": [
+            {
+                "groupId": "ca.uhn.hapi.fhir",
+                "artifactId": "hapi-fhir-base",
+                "version": "5.3.0"
+            },
+            {
+                "groupId": "ca.uhn.hapi.fhir",
+                "artifactId": "hapi-fhir-client",
+                "version": "5.3.0"
+            },
+            {
+                "groupId": "ca.uhn.hapi.fhir",
+                "artifactId": "hapi-fhir-structures-r4",
+                "version": "5.3.0"
+            }
+        ]
+    },
+}
