@@ -1,17 +1,18 @@
 import { HumanName, Identifier, Meta, Narrative, ContactPoint, DataType, Address, PatientLink, Extension } from 'fhir/r4';
-import { IdentifierUse, NarrativeStatus } from '../enum/Status';
+import { IdentifierUse, NarrativeStatus, NameUse } from '../enum/Status';
 import { MetaBuild } from '../buildTool/MetaBuilder';
 import { NarrativeBuilder } from '../buildTool/NarrativeBuilder';
 import { Patient } from '../buildTool/Patient';
 import { IdentifierBuilder } from '../buildTool/IdentifierBuilder';
 import { CodeableConceptBuilder } from '../buildTool/CodeableConceptBuilder';
+import {HumanNameBuilder} from "../buildTool/HumanNameBuilder";
 
 export class PatientResourceBuilder {
     private meta:Meta;
     private text: Narrative;
-    private identifierList: Array<Identifier>;
-    // private active: boolean;
-    // private humanNameList: Array<HumanName>
+    private identifierList: Array<IdentifierBuilder>;
+    private active: boolean;
+    private humanNameList: Array<HumanName>
     // private contactPointList: Array<ContactPoint>
     // private birthDate: DataType;
     // private administrativeGender: string;
@@ -38,17 +39,27 @@ export class PatientResourceBuilder {
     addIdentifier(use:IdentifierUse, codeSystem:string, codeCode:string, system:string, value:string){
         const identifier = new IdentifierBuilder();
         identifier.setUse(use);
-        const codeableConcept = new CodeableConceptBuilder();
-        codeableConcept.addCoding().setSystem(codeSystem).setCode(codeCode)
-        identifier.setType(codeableConcept);
+        const codeable = new CodeableConceptBuilder();
+        codeable.addCoding().setSystem(codeSystem).setCode(codeCode)
+        identifier.setType(codeable);
         identifier.setSystem(system);
         identifier.setValue(value);
         console.log(identifier)
-        console.log(identifier.type)
-        console.log(8)
         this.identifierList.push(identifier)
-        console.log(9)
         return this;
+    }
+    setActive(active:boolean) {
+        this.active = active;
+        return this;
+    }
+    addName(use: NameUse, text:string, family:string, given:string, prefix:string){
+        const humanName = new HumanNameBuilder();
+        humanName.setUse(use);
+        humanName.setText(text);
+        humanName.setFamily(family);
+        let stringTypeGivenList: Array<string>
+        let stringTypeGiven:string;
+
     }
     build() {
         // var Patient = java.import('org.hl7.fhir.r4.model.Patient');
